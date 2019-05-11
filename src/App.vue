@@ -1,23 +1,31 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <a-locale-provider :locale="locale">
+      <router-view />
+    </a-locale-provider>
   </div>
 </template>
 
 <script>
+import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
+import enUS from 'ant-design-vue/lib/locale-provider/en_US'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+      locale: zhCN
+    }
+  },
+  watch: {
+    '$route.query.locale': function (val) {
+      this.locale = val === 'enUS' ? enUS : zhCN
+      moment.locale(val === 'enUS' ? 'en' : 'zh-cn')
+    }
+  }
 }
+
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style lang="less"></style>
